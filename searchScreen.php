@@ -46,22 +46,22 @@
 <div>
 <table>
 <tr><td><strong>Winestore Database</strong></td></tr>
-<form action="" method="">
+<form action="resultScreen.php" method="GET">
 <tr>
    <td>1. Wine Name: </td>
-   <td> <input type="text" name="wineName"></td>
+   <td> <input type="text" name="wineName"</td>
 </tr>
 <tr>
    <td>2. Winery Name:</td>
-   <td> <input type="text" name="wineryName"></td>
+   <td> <input type="text" name="wineryName"</td>
 <tr>
    <td>3. Region:</td>
    <td> <select value="regionTable">
 <?php
    while($row1 = mysql_fetch_row($result))
    {
-      $region = "$row1[0] ".$row1[1];
-      echo '<option value="$row1[0]">'.$region.'</option>';
+      $region = $row1[1];
+      echo '<option value="$row1[1]">'.$region.'</option>';
    }
 ?>
    </select></td>
