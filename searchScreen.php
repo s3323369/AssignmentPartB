@@ -22,7 +22,7 @@
       exit;
    }
 
-   $result2 = mysql_query("SELECT * FROM grape_variety", $connection);
+   $result2 = mysql_query("SELECT * FROM grape_variety ORDER BY variety ASC", $connection);
    if (!$result2)
    {
       echo 'Could not run query: ' . mysql_error();
@@ -56,12 +56,12 @@
    <td> <input type="text" name="wineryName"</td>
 <tr>
    <td>3. Region:</td>
-   <td> <select value="regionTable">
+   <td> <select name="regionTable">
 <?php
    while($row1 = mysql_fetch_row($result))
    {
       $region = $row1[1];
-      echo '<option value="$row1[1]">'.$region.'</option>';
+      echo '<option>'.$region.'</option>';
    }
 ?>
    </select></td>
@@ -69,31 +69,31 @@
 
 <tr>
    <td>4. Grape Variety: </td>
-   <td> <select value="grapeTable">
+   <td> <select name="grapeTable">
 <?php
    while($row2 = mysql_fetch_row($result2))
    {
-      $grape_variety = "$row2[0] ".$row2[1];
-      echo '<option value="$row2[0]">'.$grape_variety.'</option>';
+      $grape_variety = $row2[1];
+      echo '<option>'.$grape_variety.'</option>';
    }
 ?>
    </td></select>
 <tr>
-   <td>5. Year from: <select value="minYear">
+   <td>5. Year from: <select name="minYearTable">
 <?php
    while($row3 = mysql_fetch_row($result3))
    {
       $lowerYear = $row3[0];
-      echo '<option value="lowerBound">'.$lowerYear.'</option>';
+      echo '<option>'.$lowerYear.'</option>';
    }
 ?>
    </td>
-   <td>to: <select value="maxYear">
+   <td>to: <select name="maxYearTable">
 <?php
    while($row4 = mysql_fetch_row($result4))
    {
       $upperYear = $row4[0];
-      echo '<option value="upperBound">'.$upperYear.'</option>';
+      echo '<option>'.$upperYear.'</option>';
    }
 ?>
    </select></td>
