@@ -15,23 +15,49 @@
       exit;
    }
    $wineName = $_GET['wineName'];
-   if($wineName != "")
-   {
-	$query = "SELECT wine_name, variety, year, winery_name
-                  FROM wine, winery, grape_variety, wine_variety
+   $wineryName = $_GET['wineryName'];
+   $regionName = $_GET['regionTable'];
+   $grapeVariety = $_GET['grapeTable'];
+   $minYear = $_GET['minYearTable'];
+   $maxYear = $_GET['maxYearTable'];
+   $minStock = $_GET['minStock'];
+   $minOrdered = $_GET['minOrdered'];
+   $query = "SELECT wine_name, variety, year, winery_name, region_name,
+	     on_hand, cost
+                  FROM wine, winery, grape_variety, wine_variety, region,
+		  inventory
                   WHERE wine.winery_id = winery.winery_id
+		  AND region.region_id = winery.region_id
                   AND wine.wine_id = wine_variety.wine_id
                   AND wine_variety.variety_id = grape_variety.variety_id
-		  AND wine_name='{$wineName}'";
-   }
-   else
+		  AND inventory.wine_id = wine.wine_id";
+
+   if($wineName != "")
    {
-   	$query = "SELECT wine_name, variety, year, winery_name
-	          FROM wine, winery, grape_variety, wine_variety
-	          WHERE wine.winery_id = winery.winery_id
-	          AND wine.wine_id = wine_variety.wine_id
-	          AND wine_variety.variety_id = grape_variety.variety_id";
+	$query .= " AND wine_name='{$wineName}'";
    }
+   if($wineryName != "")
+   {
+      $query .= " AND winery_name LIKE '%{$wineryName}%'";
+   }
+   if($regionName != "" && $regionName != "All")
+   {
+      $query .= " AND region_name = '{$regionName}'";
+   }
+   if($grapeVariety != "")
+   {
+      $query .= " AND variety = '{$grapeVariety}'";
+   }
+   if($minYear<=$maxYear)
+   {
+      $query .= " AND year <= {$maxYear}";
+      $query .= " AND year >= {$minYear}";
+   }
+   if($minStock != "")
+   {
+      $query .= " AND on_hand >= {$minStock}";
+   }
+   $query .= " ORDER BY wine_name ASC";
    $result = mysql_query("$query", $connection);
    if(!$result)
    {
@@ -58,7 +84,11 @@ while($row = @mysql_fetch_array($result))
    echo "\n<tr>\n<td>{$row["wine_name"]}</td>"
    ."\n<td>{$row["variety"]}</td>"
    ."\n<td>{$row["year"]}</td>"
-   ."\n<td>{$row["winery_name"]}</td>\n</tr>";
+   ."\n<td>{$row["winery_name"]}</td>"
+   ."\n<td>{$row["region_name"]}</td>"
+   ."\n<td>{$row["cost"]}</td>"
+   ."\n<td>{$row["on_hand"]}</td>"
+   ."\n<td>{$row["SUM(qty)"]}</td>\n</tr>";
 }
 ?>
 </table>
