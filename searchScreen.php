@@ -71,6 +71,7 @@
    <td>4. Grape Variety: </td>
    <td> <select name="grapeTable">
 <?php
+   echo '<option value="All">All </option>';
    while($row2 = mysql_fetch_row($result2))
    {
       $grape_variety = $row2[1];
@@ -104,6 +105,14 @@
 <tr>
    <td>7. Minimum number of wines ordered(per wine):</td>
    <td> <input type="text" name="minOrdered"></td>
+</tr>
+<tr>
+   <td>8a. Min Cost(optional): </td>
+   <td> <input type="text" name="minCost"></td>
+</tr>
+<tr>
+   <td>8b. Max Cost(optional): </td>
+   <td> <input type="text" name="maxCost"></td>
 </tr>
 <tr>
    <td><input type="submit" name="submit" value="search"></td>
